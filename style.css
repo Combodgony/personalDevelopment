@@ -1,0 +1,98 @@
+body{
+	margin: 0px;
+	height: 100%;
+	background-image: url("rain2.gif");
+    background-attachment: fixed;
+    background-position: center; 
+    background-size: 10%;
+}
+
+div{
+	/*border: 1px solid black; */
+}
+.header{
+	height: 40px;
+	background-color: #4CAF50;
+	color: #ffffff;
+	display: flex;
+	justify-content: space-between;
+	font-size: 20px;
+	padding: 5px 15px;
+}
+.header div{
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	align-items: center;
+}
+
+.date-list{	
+	border-color: #248f24;
+	overflow: hidden;
+	overflow-y: scroll;
+	background-color: #adebad;
+	height: 200px;
+	width: 10%;
+
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #666699	; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #80ff80; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background:  #00cc00	; 
+}
+
+.bottom{
+	display: flex;
+}
+
+.bottom button{
+	position: relative;
+    left: 150px;
+    bottom:-350px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #5cd65c; 
+    color: white;
+    padding: 15px 30px;
+    text-align: right;
+    display: inline-block;
+    font-size: 20px;
+    border-color: #99ffdd;
+    border:solid;
+    border-width: 2px;
+    border-radius: 12px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.bottom button:hover{
+	background-color: #4CAF50;
+    color: white;
+}
+
+.pic1{
+	border-radius: 50%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+#chart{
+	background-color: #993333;
+}
