@@ -3,21 +3,46 @@
 <head>
 	<title>Развитие</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="header">
 		<div>Logo</div>
-		<div><button> Exit</button></div>
+		<div class="logout"><i class="fa fa-sign-out"></i></div>
 	</div>
 	<div class="container">
 		<div class="date-list">
 			<div class="date-item">03.06.2018</div> <!--єлемент списка-->
 			<div class="date-item">06.06.2018</div>
+			<div class="date-item selected">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
 		</div>
 		<div class="content">
-			<div id="chart">wet</div>
-			<div>wetwe</div>
+			<h2>Mapping your success</h2>
+			<canvas id="chart"></canvas>
+			<div class="button-panel"><button> Save</button></div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var chart = new ChartLoder().load();
+		var canvas = document.getElementById("chart");
+		chart.setCanvas(canvas);
+		chart.draw();
+
+
+
+	</script>
 </body>
 </html>

@@ -1,10 +1,8 @@
-body{
+html, body {
 	margin: 0px;
+	height: 100%;
 }
 
-div{
-	/*border: 1px solid black; */
-}
 .header{
 	height: 40px;
 	background-color: #5766ab;
@@ -22,5 +20,80 @@ div{
 }
 
 #chart{
-	background-color: #993333;
+	background-color: #dcdada;
+	border-radius: 50%;
+	width: 400px;
+	height: 400px;
+}
+.button-panel{
+	width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    margin-top: 15px;
+}
+.button-panel>button{
+	border-radius: 5px;
+    height: 2.5em;
+    background-color: #0092007d;
+    border-color: #0a881c2e;
+    cursor: pointer;
+}
+
+.container{
+	height:  calc(100% - 50px);
+	display: flex;
+	flex-direction: row;
+}
+.date-list{
+	flex-grow:1;
+	width: 200px;
+	overflow-y: scroll;
+	background-color: #f4f4f4;
+}
+.date-item{
+	padding: 10px;
+	background-color: #f4f4f4;
+	border-bottom: #ded7d7 1px solid;
+}
+.date-item:hover{
+	background-color: #d4d4d4;
+}
+.date-item.selected{
+	background-color: #b5b5b5;
+	color: white;
+}
+.content{
+	flex-grow:10;
+	display: flex;
+	padding: 15px;
+	flex-direction: column;
+	align-items:center;
+	justify-content: center;
+	background-color: #f9f9f9;
+}
+.logout:hover{
+	cursor: pointer;
+	color: #efaaaa;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #a0a0a0	; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #565656; 
+    border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background:  #454545;
 }
