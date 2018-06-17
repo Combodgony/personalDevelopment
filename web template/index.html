@@ -3,21 +3,206 @@
 <head>
 	<title>Развитие</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="header">
 		<div>Logo</div>
-		<div><button> Exit</button></div>
+		<div class="logout"><i class="fa fa-sign-out"></i></div>
 	</div>
 	<div class="container">
 		<div class="date-list">
 			<div class="date-item">03.06.2018</div> <!--єлемент списка-->
 			<div class="date-item">06.06.2018</div>
+			<div class="date-item selected">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
+			<div class="date-item">06.06.2018</div>
 		</div>
 		<div class="content">
-			<div id="chart">wet</div>
-			<div>wetwe</div>
+			<h2>Mapping your success</h2>
+			<canvas id="chart"></canvas>
+			<div class="button-panel"><button> Save</button></div>
 		</div>
 	</div>
+	<script type="text/javascript">
+
+
+		function toRadian(gradus){
+			return gradus * Math.PI / 180
+		}
+		function getRandomColor() {
+			var letters = '0123456789ABCDEF';
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+			    color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color+'99';
+		}
+
+		function Point(x,y){
+
+			/** @var int*/
+			this.x=x;
+
+			/** @var int*/
+			this.y=y;
+		}
+
+		/**
+		* @param name string
+		* @param value float
+		*/
+		function Axis(name, value, color){
+			var color = color?color:'red';
+
+			var angleRotateFrom;
+			var angleRotateTo;
+			var scale;
+			var maxValue;
+
+			this.draw = function(ctx){
+				ctx.rotate(toRadian(angleRotateFrom));
+				ctx.fillRect(0, 0, maxValue*scale, 1);
+				drawValue(ctx);
+				ctx.rotate(toRadian(-angleRotateFrom));
+			}
+
+			function drawValue(ctx){
+				var dr = angleRotateTo-angleRotateFrom;
+				var pixelValue = scale*value;
+				var oldFillStyle = ctx.fillStyle;
+				ctx.fillStyle = getRandomColor(); 
+				ctx.beginPath();
+				ctx.arc(0,0,pixelValue,0,toRadian(dr));
+				dr= 90-dr;
+				console.log(dr);
+				ctx.moveTo(0,0);
+        		ctx.lineTo(pixelValue,0);
+		        ctx.lineTo(pixelValue*Math.sin(toRadian(dr)),pixelValue*Math.cos(toRadian(dr)));
+		        ctx.closePath();
+				ctx.fill();
+				ctx.fillStyle = oldFillStyle;
+			}
+			
+
+
+			this.setAngleRotation = function(from, to){
+				angleRotateFrom=from;
+				angleRotateTo = to;
+			}
+
+			this.setScale = function(value){
+				scale = value;
+			}
+
+			this.setMaxValue = function(value){
+				maxValue = value;
+			}
+
+			/**
+			* @return float
+			*/
+			this.getValue = function(){
+				return value;
+			}
+
+		}
+
+		function Chart(){
+
+			var canvas;
+			var context;
+
+			var maxValue=10;
+			var scale = 20;
+			var axisList = new Array();
+
+			this.setCanvas = function(cnv){
+				canvas=cnv;
+				cnv.width=400;
+				cnv.height=400;
+				context = cnv.getContext("2d");
+				canvas.addEventListener('mousemove', mouseMove);
+			}
+
+			this.draw = function(){
+				
+				//todo: draw polygon
+				//todo: graw circles
+				//todo: draw axis
+
+
+				context.translate(200, 200);
+				
+				context.fillStyle = '#55555555'
+				context.strokeStyle = '#55555599'
+				for (let i=0; i<axisList.length; i++) {
+					axisList[i].draw(context);
+				}
+
+
+				let h = scale;
+				for(let i=0; i<=maxValue*scale; i+=h){
+					context.beginPath();
+					context.arc(0,0,i,0,2*Math.PI);
+					context.stroke();
+				}
+
+				
+
+			}
+
+			this.setMaxValue = function(value){
+				maxValue=value;
+				for (let i=0; i<axisList.length; i++) {
+					axisList[i].setMaxValue(maxValue);
+				}
+			}
+
+			this.addAxis = function(axis){
+				axis.setMaxValue(maxValue);
+				axis.setScale(scale);
+				axisList.push(axis);
+				recalCulateAxisPosition();
+			}
+
+			var recalCulateAxisPosition = function(){
+				ah = 360/axisList.length;
+				for (var i=0; i<axisList.length; i++) {
+					axisList[i].setAngleRotation(ah*i-90,ah*(i+1)-90);
+				}
+			}
+
+			var mouseMove = function(e){
+				console.log("sdf");
+			}
+		}
+
+		function ChartLoder(){
+			/**
+			* @return Chart
+			*/
+			this.load = function(){
+				var chart = new Chart();
+				chart.setMaxValue(10);
+				chart.addAxis(new Axis("Душевное спокойствие",4));
+				chart.addAxis(new Axis("Здоровье",3));
+				chart.addAxis(new Axis("Финансовая независимость",3));
+				chart.addAxis(new Axis("Здоровье",3));
+				chart.addAxis(new Axis("Финансовая независимость",3));
+				chart.addAxis(new Axis("Здоровье",3));
+				chart.addAxis(new Axis("Финансовая независимость",3));
+				return chart;
+			}
+		}
+
+		var chart = new ChartLoder().load();
+		var canvas = document.getElementById("chart");
+		chart.setCanvas(canvas);
+		chart.draw();
+		
+	</script>
 </body>
 </html>
