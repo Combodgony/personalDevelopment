@@ -30,7 +30,8 @@
 
 
 		function toRadian(gradus){
-			return gradus * Math.PI / 180
+			
+			return gradus * Math.PI / 180;
 		}
 		function getRandomColor() {
 			var letters = '0123456789ABCDEF';
@@ -50,12 +51,14 @@
 			this.y=y;
 		}
 
+
+
 		/**
 		* @param name string
 		* @param value float
 		*/
 		function Axis(name, value, color){
-			var color = color?color:'red';
+			var color = color?color:getRandomColor();
 
 			var angleRotateFrom;
 			var angleRotateTo;
@@ -73,11 +76,10 @@
 				var dr = angleRotateTo-angleRotateFrom;
 				var pixelValue = scale*value;
 				var oldFillStyle = ctx.fillStyle;
-				ctx.fillStyle = getRandomColor(); 
+				ctx.fillStyle = color; 
 				ctx.beginPath();
 				ctx.arc(0,0,pixelValue,0,toRadian(dr));
 				dr= 90-dr;
-				console.log(dr);
 				ctx.moveTo(0,0);
         		ctx.lineTo(pixelValue,0);
 		        ctx.lineTo(pixelValue*Math.sin(toRadian(dr)),pixelValue*Math.cos(toRadian(dr)));
@@ -116,42 +118,45 @@
 			var context;
 
 			var maxValue=10;
-			var scale = 20;
+			var scale = 18;
 			var axisList = new Array();
+
+
+			
 
 			this.setCanvas = function(cnv){
 				canvas=cnv;
 				cnv.width=400;
 				cnv.height=400;
-				context = cnv.getContext("2d");
+				context = cnv.getContext("2d"); //погуглить 3D
 				canvas.addEventListener('mousemove', mouseMove);
 			}
 
+
 			this.draw = function(){
 				
-				//todo: draw polygon
-				//todo: graw circles
-				//todo: draw axis
-
-
+				context.clearRect(0,0,400,400);
 				context.translate(200, 200);
-				
+				context.rotate(toRadian(3));
 				context.fillStyle = '#55555555'
 				context.strokeStyle = '#55555599'
+
 				for (let i=0; i<axisList.length; i++) {
 					axisList[i].draw(context);
 				}
 
 
-				let h = scale;
+				var h = scale;
 				for(let i=0; i<=maxValue*scale; i+=h){
 					context.beginPath();
 					context.arc(0,0,i,0,2*Math.PI);
+					context.closePath();
 					context.stroke();
 				}
 
-				
 
+				context.translate(-200, -200);
+				
 			}
 
 			this.setMaxValue = function(value){
@@ -165,22 +170,23 @@
 				axis.setMaxValue(maxValue);
 				axis.setScale(scale);
 				axisList.push(axis);
-				recalCulateAxisPosition();
+				recalculateAxisPosition();
 			}
 
-			var recalCulateAxisPosition = function(){
-				ah = 360/axisList.length;
+			var recalculateAxisPosition = function(){
+				var temp = 360/axisList.length;
 				for (var i=0; i<axisList.length; i++) {
-					axisList[i].setAngleRotation(ah*i-90,ah*(i+1)-90);
+					axisList[i].setAngleRotation(temp*i-90,temp*(i+1)-90);
 				}
 			}
 
 			var mouseMove = function(e){
-				console.log("sdf");
+				let point = new Point(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+				console.log(point);
 			}
 		}
 
-		function ChartLoder(){
+		function ChartLoader(){
 			/**
 			* @return Chart
 			*/
@@ -198,11 +204,14 @@
 			}
 		}
 
-		var chart = new ChartLoder().load();
+
+		var chart = new ChartLoader().load();
 		var canvas = document.getElementById("chart");
 		chart.setCanvas(canvas);
-		chart.draw();
 		
+		window.setInterval(chart.draw, 20);
+		// chart.draw();
+
 	</script>
 </body>
 </html>
